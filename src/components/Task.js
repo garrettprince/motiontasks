@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronDownIcon,
+  CheckIcon,
+  EllipsisHorizontalIcon,
+  GlobeAmericasIcon,
+} from "@heroicons/react/24/outline";
 import { AnimatePresence, motion as m } from "framer-motion";
 function Task() {
   const [statusMenuOpen, setStatusMenuOpen] = useState(false);
@@ -8,32 +13,42 @@ function Task() {
   return (
     <div className="bg-gray-100 w-80 flex flex-col p-4 rounded-2xl gap-y-2">
       <div className="flex justify-between items-start">
-        <div className="font-bold text-lg max-w-64">
+        <div className="font-bold text-md max-w-64">
           Remember to do that thing that you need to do
         </div>
-        <div className="h-5 w-5 rounded-md bg-gray-300"></div>
+        <EllipsisHorizontalIcon className="h-5 w-5 rounded-md bg-gray-200/80" />
+      </div>
+      <div className="flex justify-between items-start">
+        <div className="bg-gray-200/80 rounded-lg px-2 py-1 flex items-center gap-x-2 cursor-pointer text-xs">
+          {/* <GlobeAmericasIcon className="h-3 w-3" /> */}
+          <p>Global</p>
+        </div>
+        <p className="bg-gray-200/80 rounded-lg px-2 py-1 flex items-center gap-x-2 cursor-pointer text-xs">
+          10m
+        </p>
+        {/* <div className="h-5 w-5 rounded-md bg-gray-300"></div> */}
       </div>
       <div className="text-sm">
         This is the task description that can even be a few lines based on how
-        long it is
+        long it is. Sometimes there may be a due date, sometimes there may not.
       </div>
-      <section className="flex justify-between items-end pt-2">
-        <p className="bg-gray-200/80 rounded-lg px-2 py-1 flex items-center gap-x-2 cursor-pointer text-xs">
-          Due 4/11 @ 12pm
+      <section className="flex justify-between items-end pt-1">
+        <p className="bg-gray-200/80 hover:bg-gray-300/60 text-gray-800 rounded-lg px-2 py-1 flex items-center gap-x-2 cursor-pointer text-xs">
+          No Due Date
         </p>
         <div className="relative text-xs">
           <m.div
             onClick={() => setStatusMenuOpen(!statusMenuOpen)}
-            className={`rounded-lg px-2 py-1 flex items-center gap-x-2 cursor-pointer transition-all duration-100 ${
+            className={`rounded-lg px-2 py-1 flex items-center gap-x-[.35rem] cursor-pointer transition-all ease-in-out duration-200 ${
               status === "Not Started"
-                ? "bg-gray-200/80 border-gray-300"
+                ? "bg-gray-200/80 hover:bg-gray-300/60"
                 : status === "Research"
-                ? "bg-blue-100 border-blue-300"
+                ? "bg-purple-100 text-purple-500 hover:bg-purple-200/60"
                 : status === "In Progress"
-                ? "bg-orange-100 border-orange-300"
+                ? "bg-blue-100 text-blue-500 hover:bg-blue-200/60"
                 : status === "Stalled"
-                ? "bg-red-100 border-red-300"
-                : "bg-green-100 border-green-300"
+                ? "bg-orange-100 text-orange-500 hover:bg-orange-200/60"
+                : "bg-green-100 text-green-500 hover:bg-green-200/60"
             }`}
           >
             <div
@@ -41,11 +56,11 @@ function Task() {
                 status === "Not Started"
                   ? "bg-gray-500"
                   : status === "Research"
-                  ? "bg-blue-500"
+                  ? "bg-purple-500"
                   : status === "In Progress"
-                  ? "bg-orange-500"
+                  ? "bg-blue-500"
                   : status === "Stalled"
-                  ? "bg-red-500"
+                  ? "bg-orange-500"
                   : "bg-green-500"
               }`}
             ></div>
