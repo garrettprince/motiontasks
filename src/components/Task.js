@@ -17,11 +17,11 @@ function Task({}) {
   return (
     <m.div
       className={`task-card-shadow ${
-        editState ? "w-[24rem]" : "w-[22rem]"
+        editState ? "w-[23rem]" : "w-[22rem]"
       } border border-gray-200 border-b-gray-300 flex flex-col p-4 rounded-2xl gap-y-2 transition-all duration-500`}
     >
       {/* Title and Option Menu Container */}
-      <section className="flex justify-between items-start mt-[-.2rem]">
+      <section className="flex justify-between items-start mt-[-.2rem] ">
         <div>
           <AnimatePresence>
             {editState && (
@@ -47,26 +47,8 @@ function Task({}) {
         />
       </section>
 
-      {/* Description Container */}
-      <section className="flex flex-col gap-y-1 items-start pb-1">
-        <AnimatePresence>
-          {editState && (
-            <m.label
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 0.2 }}
-              className="text-xs text-gray-400 pl-1"
-            >
-              Description
-            </m.label>
-          )}
-        </AnimatePresence>
-        <textarea className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 items-center gap-x-[.35rem] cursor-text text-sm h-[7rem] w-full resize-none"></textarea>
-      </section>
-
       {/* Date and Status Container */}
-      <section className="flex justify-between items-start pt-1">
+      <section className="flex justify-between items-start pt-1 pb-2">
         <div className="flex flex-col gap-y-1 items-start">
           <AnimatePresence>
             {editState && (
@@ -108,6 +90,24 @@ function Task({}) {
             setStatusMenuOpen={setStatusMenuOpen}
           />
         </div>
+      </section>
+
+      {/* Description Container */}
+      <section className="flex flex-col gap-y-1 items-start pb-1">
+        <AnimatePresence>
+          {editState && (
+            <m.label
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="text-xs text-gray-400 pl-1"
+            >
+              Description
+            </m.label>
+          )}
+        </AnimatePresence>
+        <textarea className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 items-center gap-x-[.35rem] cursor-text text-sm h-[7rem] w-full resize-none"></textarea>
       </section>
 
       {/* Stalled Context Container */}
