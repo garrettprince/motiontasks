@@ -48,7 +48,7 @@ function StatusSelectButton({
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.1 }}
-              className="absolute right-0 bg-white shadow-md rounded-lg mt-2 p-2 w-44"
+              className="absolute right-0 bg-white task-card-shadow border border-gray-200 rounded-xl mt-2 p-2 w-44"
             >
               {["Not Started", "Research", "In Progress", "Stalled", "Completed"].map((item) => (
                 <div
