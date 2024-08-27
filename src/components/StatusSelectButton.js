@@ -49,17 +49,22 @@ function StatusSelectButton({
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.1 }}
               className="absolute right-0 bg-white task-card-shadow border border-gray-200 rounded-xl mt-2 p-2 w-44"
+              onClick={(e) => e.stopPropagation()}
             >
-              {["Not Started", "Research", "In Progress", "Stalled", "Completed"].map((item) => (
+              {[
+                "Not Started",
+                "Research",
+                "In Progress",
+                "Stalled",
+                "Completed",
+              ].map((item) => (
                 <div
                   key={item}
                   onClick={() => {
                     setStatus(item);
                     setStatusMenuOpen(false);
                   }}
-                  className={`cursor-pointer rounded-md py-1 px-2 flex items-center justify-between hover:bg-gray-100 ${
-                    status === item ? "bg-gray-100" : ""
-                  }`}
+                  className="cursor-pointer rounded-md py-1 px-2 flex items-center justify-between hover:bg-gray-100"
                 >
                   {item}
                   {status === item && <CheckIcon className="h-3 w-3" />}
