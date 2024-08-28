@@ -13,6 +13,13 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
+    fontFamily: {
+      sans: ["suisse_intlregular", "sans-serif"],
+      bold: ["suisse_intlbold", "sans-serif"],
+      light: ["suisse_intllight", "sans-serif"],
+      medium: ["suisse_intlmedium", "sans-serif"],
+      semibold: ["suisse_intlsemibold", "sans-serif"],
+    },
   },
   plugins: [],
 };

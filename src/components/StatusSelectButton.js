@@ -17,12 +17,12 @@ function StatusSelectButton({
             status === "Not Started"
               ? "bg-gray-100 hover:bg-gray-200/75 border-gray-200 border-b-gray-300 not-started-select-shadow"
               : status === "Research"
-              ? "bg-purple-100 text-purple-500 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow"
+              ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow"
               : status === "In Progress"
-              ? "bg-blue-100 text-blue-500 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow"
+              ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow"
               : status === "Stalled"
-              ? "bg-orange-100 text-orange-500 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow"
-              : "bg-green-100 text-green-500 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow"
+              ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow"
+              : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow"
           }`}
         >
           <div
