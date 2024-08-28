@@ -67,8 +67,8 @@ function Task({}) {
       </section>
 
       {/* Date and Status Container */}
-      <section className="flex justify-between w-full pt-1">
-        <div className="flex flex-col gap-y-1 items-start">
+      <section className="flex justify-between w-full pt-1 gap-x-4">
+        <div className="flex flex-col gap-y-1  w-full">
           <AnimatePresence>
             {editState && (
               <m.label
@@ -88,7 +88,7 @@ function Task({}) {
             dueTimeBool={dueTimeBool}
           />
         </div>
-        <div className="flex flex-col gap-y-1 items-end">
+        <div className="flex flex-col gap-y-1 items-end w-full">
           <AnimatePresence>
             {editState && (
               <m.label
@@ -111,6 +111,7 @@ function Task({}) {
         </div>
       </section>
 
+      {/* Task Actions Container */}
       {editState && (
         <div className="flex flex-col gap-y-1 items-start pt-2">
           <AnimatePresence>
