@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('../styles/stylesheet.css');
+/* @import url("../styles/stylesheet.css"); */
 
 @layer base {
   .task-card-shadow {
@@ -12,7 +12,7 @@
 
   .not-started-select-shadow {
     box-shadow: 0 1px 1px -17px #0d162f0d, 0 5px 7px -5px #0d162f1a,
-      inset 0 -1.5px 0 0 #e5e7eb;
+      inset 0 -1.5px 0 0 #f0f1f3;
   }
 
   .in-progress-select-shadow {
@@ -38,55 +38,5 @@
   .delete-button-shadow {
     box-shadow: 0 1px 1px -17px #0d162f0d, 0 5px 7px -5px #0d162f1a,
       inset 0 -1.5px 0 0 #fecdd3;
-  }
-
-  @font-face {
-    font-family: "suisse_intlregular";
-    src: url("/fonts/suisseintl-regular-webfont.woff2") format("woff2"),
-      url("/fonts/suisseintl-regular-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "suisse_intlmedium";
-    src: url("/fonts/suisseintl-medium-webfont.woff2") format("woff2"),
-      url("/fonts/suisseintl-medium-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "suisse_intlsemibold";
-    src: url("/fonts/suisseintl-semibold-webfont.woff2") format("woff2"),
-      url("/fonts/suisseintl-semibold-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "suisse_intlbold";
-    src: url("/fonts/suisseintl-bold-webfont.woff2") format("woff2"),
-      url("/fonts/suisseintl-bold-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: "suisse_intllight";
-    src: url("/fonts/suisseintl-light-webfont.woff2") format("woff2"),
-      url("/fonts/suisseintl-light-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  body {
-    font-family: "suisse_intlregular", sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-
-  .font-sans {
-    font-family: "suisse_intlregular", sans-serif;
   }
 }

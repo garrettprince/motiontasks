@@ -12,9 +12,9 @@ function StatusSelectButton({
     <div className="relative text-sm w-full">
       <m.div
         onClick={() => setStatusMenuOpen(!statusMenuOpen)}
-        className={`transition-all ease-in-out duration-200 border rounded-lg px-3 py-1 flex items-center justify-between cursor-pointer ${
+        className={`transition-all ease-in-out duration-200 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer ${
           status === "Not Started"
-            ? "bg-gray-100 hover:bg-gray-200/75 border-gray-200 border-b-gray-300 not-started-select-shadow"
+            ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow"
             : status === "Research"
             ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow"
             : status === "In Progress"
@@ -65,7 +65,7 @@ function StatusSelectButton({
                   setStatus(item);
                   setStatusMenuOpen(false);
                 }}
-                className="cursor-pointer rounded-md py-1 px-2 flex items-center justify-between hover:bg-gray-100"
+                className="cursor-pointer rounded-md py-1 px-2 flex items-center justify-between hover:bg-gray-100 "
               >
                 {item}
                 {status === item && <CheckIcon className="h-3 w-3" />}
