@@ -6,6 +6,7 @@ import DatePickerButton from "./DatePickerButton";
 import EditButton from "./EditButton";
 import TaskActionButtons from "./TaskActionButtons";
 import CancelButton from "./CancelButton";
+import { supabase } from "../utils/supabase";
 
 function Task({}) {
   const [statusMenuOpen, setStatusMenuOpen] = useState(false);
@@ -14,43 +15,75 @@ function Task({}) {
   const [dueTimeBool, setDueTimeBool] = useState(true);
   const [dueTime, setDueTime] = useState("12pm");
   const [editState, setEditState] = useState(true);
+  const [description, setDescription] = useState("Test");
   //   const [borderColor, setBorderColor] = useState("transparent");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase.from("tasks").select("*");
+      console.log(data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <m.div
-      className={`task-card-shadow ${
-        editState ? "w-[23rem]" : "w-[22rem]"
-      } border border-gray-200 border-b-gray-300 flex flex-col p-4 rounded-2xl gap-y-2 transition-all duration-500`}
+      className={`task-card-shadow 
+       border border-gray-300 border-b-gray-300 flex flex-col p-4 pt-3 rounded-2xl gap-y-2 transition-all duration-500 w-[22rem]`}
     >
       {/* Title and Edit Button Container */}
-      <section className="flex justify-between items-start mt-[-.2rem] ">
-        <div>
+      <section className="flex flex-col justify-between items-start">
+        <div className="flex w-full justify-between items-end">
           <AnimatePresence>
-            {editState && (
-              <m.label
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.2 }}
-                className="text-xs text-gray-400 pl-1"
-              >
-                Title
-              </m.label>
-            )}
+            <m.label
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="text-xs text-gray-400 pl-1 "
+            >
+              Title
+            </m.label>
           </AnimatePresence>
-          <div className="font-medium text-lg max-w-64">
-            Remember to do that thing that you need to do
-          </div>
-        </div>
         <div className="">
           <EditButton editState={editState} setEditState={setEditState} />
         </div>
+        </div>
+          <div className="font-medium pl-1 text-lg">
+            Remember to do that thing that you need to do
+          </div>
       </section>
 
       {/* Description Container */}
       <section className="flex flex-col gap-y-1 items-start pb-1">
         <AnimatePresence>
-          {editState && (
+          <m.label
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.2 }}
+            className="text-xs text-gray-400 pl-1"
+          >
+            Description
+          </m.label>
+        </AnimatePresence>
+        {editState ? (
+          <textarea className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 items-center gap-x-[.35rem] cursor-text text-sm h-20 w-full resize-none"></textarea>
+        ) : (
+          <>
+            {description && (
+              <div className="pl-1 py-1 items-center gap-x-[.35rem] text-sm  w-full overflow-auto">
+                {description}
+              </div>
+            )}
+          </>
+        )}
+      </section>
+
+      {/* Date and Status Container */}
+      <section className="flex justify-between w-full pt-1 gap-x-4">
+        <div className="flex flex-col gap-y-1  w-full">
+          <AnimatePresence>
             <m.label
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -58,28 +91,8 @@ function Task({}) {
               transition={{ duration: 0.2 }}
               className="text-xs text-gray-400 pl-1"
             >
-              Description
+              Due Date
             </m.label>
-          )}
-        </AnimatePresence>
-        <textarea className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 items-center gap-x-[.35rem] cursor-text text-sm h-[7rem] w-full resize-none"></textarea>
-      </section>
-
-      {/* Date and Status Container */}
-      <section className="flex justify-between w-full pt-1 gap-x-4">
-        <div className="flex flex-col gap-y-1  w-full">
-          <AnimatePresence>
-            {editState && (
-              <m.label
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.2 }}
-                className="text-xs text-gray-400 pl-1"
-              >
-                Due Date
-              </m.label>
-            )}
           </AnimatePresence>
           <DatePickerButton
             dueDate={dueDate}
@@ -89,17 +102,15 @@ function Task({}) {
         </div>
         <div className="flex flex-col gap-y-1 items-end w-full">
           <AnimatePresence>
-            {editState && (
-              <m.label
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                transition={{ duration: 0.2 }}
-                className="text-xs text-gray-400 pr-1"
-              >
-                Status
-              </m.label>
-            )}
+            <m.label
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="text-xs text-gray-400 pr-1"
+            >
+              Status
+            </m.label>
           </AnimatePresence>
           <StatusSelectButton
             status={status}
@@ -141,14 +152,6 @@ function Task({}) {
           </AnimatePresence>
         </div>
       )}
-
-      {/* Stalled Context Container */}
-      {/* {status === "Stalled" && (
-        <section className="flex flex-col gap-y-1 items-start pt-2">
-          <label className="text-xs text-gray-400 pl-1">Stalled Context</label>
-          <textarea className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 items-center gap-x-[.35rem] cursor-text text-sm h-[3.5rem] w-full resize-none"></textarea>
-        </section>
-      )} */}
     </m.div>
   );
 }
