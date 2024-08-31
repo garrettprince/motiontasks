@@ -14,21 +14,7 @@ function Dbtest({ onAddTask, task }) {
     }
   }, [task]);
 
-  const fetchTask = async () => {
-    if (!task) {
-      const { data, error } = await supabase
-        .from("tasks")
-        .select("*")
-        .limit(1)
-        .single();
-
-      if (error) {
-        console.error("Error fetching task:", error);
-      } else {
-        setCurrentTask(data);
-      }
-    }
-  };
+ 
 
   const handleNewTask = () => {
     setCurrentTask(null);

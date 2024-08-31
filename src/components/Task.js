@@ -13,16 +13,13 @@ import { Formik, Form, Field } from "formik";
 function Task({}) {
   // Local State
   const [statusMenuOpen, setStatusMenuOpen] = useState(false);
-  const [status, setStatus] = useState("Not Started");
   const [dueDate, setDueDate] = useState("October 12");
   const [dueTimeBool, setDueTimeBool] = useState(true);
   const [dueTime, setDueTime] = useState("12pm");
   const [editState, setEditState] = useState(true);
-  const [description, setDescription] = useState("Test");
 
   // Custom Hooks
   const [editTask, isEditingTask] = useEditTask();
-
   return (
     <m.div
       className="task-card-shadow 
@@ -34,11 +31,13 @@ function Task({}) {
           description: "",
           dueDate: "",
           dueTime: "",
-          status: "",
+          status: "Not Started",
         }}
-        onSubmit={(values) => {}}
+        onSubmit={(values) => {
+          editTask(values);
+        }}
       >
-        {({ values, handleChange, errors }) => (
+        {({ values, handleChange, errors, setFieldValue }) => (
           <Form>
             {/* Title and Edit Button Container */}
             <section className="flex flex-col justify-between items-start">
@@ -61,9 +60,12 @@ function Task({}) {
                   />
                 </div>
               </div>
-              <div className="font-medium pl-1 text-lg">
-                Remember to do that thing that you need to do
-              </div>
+
+              <Field
+                name="title"
+                placeholder="Task title"
+                className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 items-center gap-x-[.35rem] cursor-text  w-full resize-none text-lg font-medium"
+              />
             </section>
 
             {/* Description Container */}
@@ -79,17 +81,13 @@ function Task({}) {
                   Description
                 </m.label>
               </AnimatePresence>
-              {editState ? (
-                <textarea className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 items-center gap-x-[.35rem] cursor-text text-sm h-20 w-full resize-none"></textarea>
-              ) : (
-                <>
-                  {description && (
-                    <div className="pl-1 py-1 items-center gap-x-[.35rem] text-sm  w-full overflow-auto">
-                      {description}
-                    </div>
-                  )}
-                </>
-              )}
+
+              <Field
+                name="description"
+                placeholder="Task description"
+                type="text"
+                className="border border-gray-200 border-b-gray-300 rounded-lg px-2 py-1 flex justify-start items-start cursor-text text-sm w-full"
+              />
             </section>
 
             {/* Date and Status Container */}
@@ -125,10 +123,11 @@ function Task({}) {
                   </m.label>
                 </AnimatePresence>
                 <StatusSelectButton
-                  status={status}
-                  setStatus={setStatus}
                   statusMenuOpen={statusMenuOpen}
                   setStatusMenuOpen={setStatusMenuOpen}
+                  values={values}
+                  setFieldValue={setFieldValue}
+                  name="status"
                 />
               </div>
             </section>
