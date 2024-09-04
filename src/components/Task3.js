@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { supabase } from "@/utils/supabase";
 import { Formik, Form, Field } from "formik";
 import { DatePicker } from "@/components/DatePicker";
+import { Check, Trash, Trash2 } from "lucide-react";
 
 function Task3() {
   const [tasks, setTasks] = useState([]);
@@ -42,14 +43,12 @@ function Task3() {
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
-      const { data, error } = await supabase
-        .from("tasks")
-        .insert({
-          title: values.title,
-          description: values.description,
-          status: values.status,
-          due_date: values.dueDate,
-        });
+      const { data, error } = await supabase.from("tasks").insert({
+        title: values.title,
+        description: values.description,
+        status: values.status,
+        due_date: values.dueDate,
+      });
 
       if (error) {
         console.error("Error saving task:", error);
@@ -84,16 +83,13 @@ function Task3() {
 
   const handleDelete = async (id) => {
     try {
-      const { error } = await supabase
-        .from("tasks")
-        .delete()
-        .eq("id", id);
+      const { error } = await supabase.from("tasks").delete().eq("id", id);
 
       if (error) {
         console.error("Error deleting task:", error);
       } else {
         console.log("Task deleted successfully");
-        setTasks(tasks.filter(task => task.id !== id));
+        setTasks(tasks.filter((task) => task.id !== id));
         setEditingTaskId(null);
       }
     } catch (error) {
@@ -102,17 +98,19 @@ function Task3() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-80 mx-auto">
-      <Button
-        onClick={() => setShowNewTaskForm(true)}
-        className="mb-4"
-        variant="default"
-        size="lg"
-      >
-        New Task
-      </Button>
+    <div className="flex flex-col items-center justify-center w-[22.5rem] mx-auto">
+      <div className="flex w-full justify-end">
+          <Button
+            onClick={() => setShowNewTaskForm(true)}
+            className="mb-4"
+            variant="default"
+            size="lg"
+          >
+            New Task
+          </Button>
+      </div>
       {showNewTaskForm && (
-        <div className="w-full border p-4 rounded-lg mb-4">
+        <div className="w-full border p-4 rounded-lg mb-2">
           <Formik
             initialValues={{
               title: "",
@@ -130,7 +128,9 @@ function Task3() {
                   value={values.title}
                   onChange={(e) => setFieldValue("title", e.target.value)}
                   placeholder="Task Title"
-                  className="w-full mb-2 p-2 border rounded"
+                  className="w-full mb-2 p-2 border rounded text-xl font-medium"
+                  autoComplete="off"
+                  required
                 />
                 <Input
                   type="text"
@@ -139,6 +139,8 @@ function Task3() {
                   onChange={(e) => setFieldValue("description", e.target.value)}
                   placeholder="Task Description"
                   className="w-full mb-2 p-2 border rounded"
+                  autoComplete="off"
+                  required
                 />
                 <section className="flex justify-between space-x-2">
                   <Select
@@ -146,6 +148,7 @@ function Task3() {
                     onValueChange={(value) => setFieldValue("status", value)}
                     value={values.status}
                     className="mb-2 p-2 border rounded w-56"
+                    required
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Status" />
@@ -162,23 +165,34 @@ function Task3() {
                     selected={values.dueDate}
                     onChange={(date) => setFieldValue("dueDate", date)}
                     className="min-w-[8rem] mb-2 p-2 border rounded"
+                    required
                   />
                 </section>
-                <Button
-                  type="submit"
-                  className="w-full mt-2"
-                  variant="default"
-                  size="lg"
-                >
-                  Create Task
-                </Button>
+                <div className="flex justify-between space-x-2">
+                  <Button
+                    type="button"
+                    className="w-full mt-2"
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setShowNewTaskForm(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="w-full mt-2"
+                    variant="default"
+                    size="sm"
+                  >
+                    Create Task
+                  </Button>
+                </div>
               </Form>
             )}
           </Formik>
         </div>
       )}
       <div className="w-full">
-        <h2 className="text-xl font-semibold mb-2">Previous Tasks</h2>
         {tasks.map((task) => (
           <div key={task.id} className="border p-4 rounded-lg mb-2">
             {editingTaskId === task.id ? (
@@ -201,13 +215,26 @@ function Task3() {
                       as={Input}
                       name="title"
                       className="font-semibold mb-2"
+                      autoComplete="off"
+                      required
                     />
                     <Field
                       as={Input}
                       name="description"
                       className="mb-2"
+                      autoComplete="off"
+                      required
                     />
                     <div className="flex justify-between space-x-2 mb-2">
+                      <DatePicker
+                        selected={values.dueDate}
+                        onChange={(date) => {
+                          setFieldValue("dueDate", date);
+                          handleUpdate(task.id, "due_date", date);
+                        }}
+                        className="min-w-[8rem]"
+                        required
+                      />
                       <Select
                         name="status"
                         onValueChange={(value) => {
@@ -216,49 +243,28 @@ function Task3() {
                         }}
                         value={values.status}
                         className="w-56"
+                        required
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="Status" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Not Started">Not Started</SelectItem>
+                          <SelectItem value="Not Started">
+                            Not Started
+                          </SelectItem>
                           <SelectItem value="Research">Research</SelectItem>
-                          <SelectItem value="In Progress">In Progress</SelectItem>
+                          <SelectItem value="In Progress">
+                            In Progress
+                          </SelectItem>
                           <SelectItem value="Stalled">Stalled</SelectItem>
                           <SelectItem value="Completed">Completed</SelectItem>
                         </SelectContent>
                       </Select>
-                      <DatePicker
-                        selected={values.dueDate}
-                        onChange={(date) => {
-                          setFieldValue("dueDate", date);
-                          handleUpdate(task.id, "due_date", date);
-                        }}
-                        className="min-w-[8rem]"
-                      />
                     </div>
                     <div className="flex justify-between space-x-2">
                       <Button
-                        type="submit"
-                        className="w-full"
-                        variant="outline"
-                        size="sm"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Updating..." : "Save"}
-                      </Button>
-                      <Button
                         type="button"
-                        className="w-full"
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDelete(task.id)}
-                      >
-                        Delete
-                      </Button>
-                      <Button
-                        type="button"
-                        className="w-full"
+                        className="w-20"
                         variant="secondary"
                         size="sm"
                         onClick={() => {
@@ -268,18 +274,59 @@ function Task3() {
                       >
                         Cancel
                       </Button>
+                      <div className="flex justify-between space-x-2">
+                          <div>
+                            <Button
+                              type="button"
+                              className="w-20"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDelete(task.id)}
+                            >
+                              <Trash2 className="w-3 h-3 mr-1 mb-[.1rem]" />
+                              <span>Delete</span>
+                            </Button>
+                          </div>
+                          <Button
+                            type="submit"
+                            className="w-20"
+                            variant="outline"
+                            size="sm"
+                            disabled={isSubmitting}
+                          >
+                            <Check className="w-3 h-3 mr-1 " />
+                            {isSubmitting ? "Updating..." : "Save"}
+                          </Button>
+                      </div>
                     </div>
                   </Form>
                 )}
               </Formik>
             ) : (
               <>
+               <div className="flex justify-end">
+                   <Button
+                      onClick={() => setEditingTaskId(task.id)}
+                      className="mt-2 items-center w-16"
+                      variant="outline"
+                      size="sm"
+                    >
+                      Edit
+                    </Button>
+               </div>
                 <h3 className="font-semibold">{task.title}</h3>
                 <p>{task.description}</p>
                 <div className="flex justify-between space-x-2 mb-2">
+                  <DatePicker
+                    selected={new Date(task.due_date)}
+                    onChange={(date) => handleUpdate(task.id, "due_date", date)}
+                    className="min-w-[8rem]"
+                  />
                   <Select
                     value={task.status}
-                    onValueChange={(value) => handleUpdate(task.id, "status", value)}
+                    onValueChange={(value) =>
+                      handleUpdate(task.id, "status", value)
+                    }
                     className="w-56"
                   >
                     <SelectTrigger>
@@ -293,20 +340,8 @@ function Task3() {
                       <SelectItem value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
-                  <DatePicker
-                    selected={new Date(task.due_date)}
-                    onChange={(date) => handleUpdate(task.id, "due_date", date)}
-                    className="min-w-[8rem]"
-                  />
                 </div>
-                <Button
-                  onClick={() => setEditingTaskId(task.id)}
-                  className="mt-2"
-                  variant="outline"
-                  size="sm"
-                >
-                  Edit
-                </Button>
+               
               </>
             )}
           </div>

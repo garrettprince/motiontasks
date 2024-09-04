@@ -11,8 +11,8 @@ import Task3 from "@/components/Task3";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center font-sans">
-      <div className="pt-20">{/* <Task /> */}</div>
-      <div className="pt-20">{/* <Task2 /> */}</div>
+      <div className="">{/* <Task /> */}</div>
+      <div className="">{/* <Task2 /> */}</div>
       <div className="pt-20"><Task3 /></div>
     </main>
   );
