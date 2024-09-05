@@ -100,14 +100,14 @@ function Task3() {
   return (
     <div className="flex flex-col items-center justify-center w-[22.5rem] mx-auto">
       <div className="flex w-full justify-end">
-          <Button
-            onClick={() => setShowNewTaskForm(true)}
-            className="mb-4"
-            variant="default"
-            size="lg"
-          >
-            New Task
-          </Button>
+        <Button
+          onClick={() => setShowNewTaskForm(true)}
+          className="mb-4"
+          variant="default"
+          size="lg"
+        >
+          New Task
+        </Button>
       </div>
       {showNewTaskForm && (
         <div className="w-full border p-4 rounded-lg mb-2">
@@ -143,6 +143,12 @@ function Task3() {
                   required
                 />
                 <section className="flex justify-between space-x-2">
+                  <DatePicker
+                    selected={values.dueDate}
+                    onChange={(date) => setFieldValue("dueDate", date)}
+                    className="min-w-[8rem] mb-2 p-2 border rounded"
+                    required
+                  />
                   <Select
                     name="status"
                     onValueChange={(value) => setFieldValue("status", value)}
@@ -161,12 +167,6 @@ function Task3() {
                       <SelectItem value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
-                  <DatePicker
-                    selected={values.dueDate}
-                    onChange={(date) => setFieldValue("dueDate", date)}
-                    className="min-w-[8rem] mb-2 p-2 border rounded"
-                    required
-                  />
                 </section>
                 <div className="flex justify-between space-x-2">
                   <Button
@@ -275,28 +275,28 @@ function Task3() {
                         Cancel
                       </Button>
                       <div className="flex justify-between space-x-2">
-                          <div>
-                            <Button
-                              type="button"
-                              className="w-20"
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => handleDelete(task.id)}
-                            >
-                              <Trash2 className="w-3 h-3 mr-1 mb-[.1rem]" />
-                              <span>Delete</span>
-                            </Button>
-                          </div>
+                        <div>
                           <Button
-                            type="submit"
+                            type="button"
                             className="w-20"
-                            variant="outline"
+                            variant="destructive"
                             size="sm"
-                            disabled={isSubmitting}
+                            onClick={() => handleDelete(task.id)}
                           >
-                            <Check className="w-3 h-3 mr-1 " />
-                            {isSubmitting ? "Updating..." : "Save"}
+                            <Trash2 className="w-3 h-3 mr-1 mb-[.1rem]" />
+                            <span>Delete</span>
                           </Button>
+                        </div>
+                        <Button
+                          type="submit"
+                          className="w-20"
+                          variant="outline"
+                          size="sm"
+                          disabled={isSubmitting}
+                        >
+                          <Check className="w-3 h-3 mr-1 " />
+                          {isSubmitting ? "Updating..." : "Save"}
+                        </Button>
                       </div>
                     </div>
                   </Form>
@@ -304,16 +304,16 @@ function Task3() {
               </Formik>
             ) : (
               <>
-               <div className="flex justify-end">
-                   <Button
-                      onClick={() => setEditingTaskId(task.id)}
-                      className="mt-2 items-center w-16"
-                      variant="outline"
-                      size="sm"
-                    >
-                      Edit
-                    </Button>
-               </div>
+                <div className="flex justify-end">
+                  <Button
+                    onClick={() => setEditingTaskId(task.id)}
+                    className="mt-2 items-center w-16"
+                    variant="outline"
+                    size="sm"
+                  >
+                    Edit
+                  </Button>
+                </div>
                 <h3 className="font-semibold">{task.title}</h3>
                 <p>{task.description}</p>
                 <div className="flex justify-between space-x-2 mb-2">
@@ -341,7 +341,6 @@ function Task3() {
                     </SelectContent>
                   </Select>
                 </div>
-               
               </>
             )}
           </div>
