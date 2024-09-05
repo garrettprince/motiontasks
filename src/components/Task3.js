@@ -153,7 +153,7 @@ function Task3() {
                     name="status"
                     onValueChange={(value) => setFieldValue("status", value)}
                     value={values.status}
-                    className="mb-2 p-2 border rounded w-56"
+                    className="mb-2 p-2 border rounded"
                     required
                   >
                     <SelectTrigger>
@@ -192,6 +192,8 @@ function Task3() {
           </Formik>
         </div>
       )}
+
+      {/* Task List */}
       <div className="w-full">
         {tasks.map((task) => (
           <div key={task.id} className="border p-4 rounded-lg mb-2">
@@ -245,7 +247,17 @@ function Task3() {
                         className="w-56"
                         required
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className={`transition-all ease-in-out duration-200 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                          values.status === "Not Started"
+                            ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow"
+                            : values.status === "Research"
+                            ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow"
+                            : values.status === "In Progress"
+                            ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow"
+                            : values.status === "Stalled"
+                            ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow"
+                            : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow"
+                        }`}>
                           <SelectValue placeholder="Status" />
                         </SelectTrigger>
                         <SelectContent>
@@ -329,7 +341,17 @@ function Task3() {
                     }
                     className="w-56"
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className={`transition-all ease-in-out duration-200 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                      task.status === "Not Started"
+                        ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow"
+                        : task.status === "Research"
+                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow"
+                        : task.status === "In Progress"
+                        ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow"
+                        : task.status === "Stalled"
+                        ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow"
+                        : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow"
+                    }`}>
                       <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
