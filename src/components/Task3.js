@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/utils/supabase";
 import { Formik, Form, Field } from "formik";
 import { DatePicker } from "@/components/DatePicker";
@@ -19,10 +20,17 @@ function Task3() {
   const [tasks, setTasks] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+  const newTaskTextareaRef = useRef(null);
 
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  useEffect(() => {
+    if (showNewTaskForm && newTaskTextareaRef.current) {
+      newTaskTextareaRef.current.focus();
+    }
+  }, [showNewTaskForm]);
 
   const fetchTasks = async () => {
     try {
@@ -98,6 +106,9 @@ function Task3() {
   };
 
   return (
+    //////////
+    // FORM //
+    //////////
     <div className="flex flex-col items-center justify-center w-[22.5rem] mx-auto">
       <div className="flex w-full justify-end">
         <Button
@@ -110,7 +121,7 @@ function Task3() {
         </Button>
       </div>
       {showNewTaskForm && (
-        <div className="w-full border p-4 rounded-lg mb-2">
+        <div className="w-full border p-4 rounded-2xl mb-2">
           <Formik
             initialValues={{
               title: "",
@@ -122,15 +133,20 @@ function Task3() {
           >
             {({ values, setFieldValue }) => (
               <Form>
-                <Input
-                  type="text"
+                <Textarea
                   name="title"
                   value={values.title}
-                  onChange={(e) => setFieldValue("title", e.target.value)}
-                  placeholder="Task Title"
-                  className="w-full mb-2 p-2 border rounded text-xl font-medium"
+                  onChange={(e) => {
+                    setFieldValue("title", e.target.value);
+                    e.target.style.height = '20px';
+                    e.target.style.height = e.target.scrollHeight + 'px';
+                  }}
+                  placeholder="New task"
+                  className="w-full mb-2 p-2 text-xl resize-none rounded-lg overflow-hidden border-none shadow-none placeholder:text-gray-400"
                   autoComplete="off"
                   required
+                  rows={1}
+                  ref={newTaskTextareaRef}
                 />
                 <Input
                   type="text"
@@ -156,7 +172,7 @@ function Task3() {
                     className="mb-2 p-2 border rounded"
                     required
                   >
-                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 ${
                       values.status === "Not Started"
                         ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                         : values.status === "Research"
@@ -167,14 +183,27 @@ function Task3() {
                         ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
                         : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
                     } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
-                    <SelectValue placeholder="Status" />
+                    <div className="flex items-center">
+                      <div className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
+                        values.status === "Not Started"
+                          ? "bg-gray-400"
+                          : values.status === "Research"
+                          ? "bg-purple-600"
+                          : values.status === "In Progress"
+                          ? "bg-blue-600"
+                          : values.status === "Stalled"
+                          ? "bg-orange-600"
+                          : "bg-green-600"
+                      }`}></div>
+                      <SelectValue placeholder="Status" />
+                    </div>
                     </SelectTrigger>
                     <SelectContent className="rounded-lg">
-                      <SelectItem className="text-md" value="Not Started">Not Started</SelectItem>
-                      <SelectItem className="text-md" value="Research">Research</SelectItem>
-                      <SelectItem className="text-md" value="In Progress">In Progress</SelectItem>
-                      <SelectItem className="text-md" value="Stalled">Stalled</SelectItem>
-                      <SelectItem className="text-md" value="Completed">Completed</SelectItem>
+                      <SelectItem value="Not Started">Not Started</SelectItem>
+                      <SelectItem value="Research">Research</SelectItem>
+                      <SelectItem value="In Progress">In Progress</SelectItem>
+                      <SelectItem value="Stalled">Stalled</SelectItem>
+                      <SelectItem value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
                 </section>
@@ -203,10 +232,10 @@ function Task3() {
         </div>
       )}
 
-      {/* Task List */}
-      <div className="w-full">
+      {/* Task List EDITING */}
+      <div className="w-full ">
         {tasks.map((task) => (
-          <div key={task.id} className="border p-4 rounded-lg mb-2">
+          <div key={task.id} className="border p-4 rounded-2xl mb-2">
             {editingTaskId === task.id ? (
               <Formik
                 initialValues={{
@@ -254,10 +283,10 @@ function Task3() {
                           handleUpdate(task.id, "status", value);
                         }}
                         value={values.status}
-                        className="w-56"
+                        className=""
                         required
                       >
-                        <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                        <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8  ${
                           values.status === "Not Started"
                             ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                             : values.status === "Research"
@@ -268,18 +297,31 @@ function Task3() {
                             ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
                             : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
                         } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
-                          <SelectValue placeholder="Status" />
+                          <div className="flex items-center">
+                            <div className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
+                              values.status === "Not Started"
+                                ? "bg-gray-400"
+                                : values.status === "Research"
+                                ? "bg-purple-600"
+                                : values.status === "In Progress"
+                                ? "bg-blue-600"
+                                : values.status === "Stalled"
+                                ? "bg-orange-600"
+                                : "bg-green-600"
+                            }`}></div>
+                            <SelectValue placeholder="Status" />
+                          </div>
                         </SelectTrigger>
                         <SelectContent className="rounded-lg">
-                          <SelectItem value="Not Started" className="text-md">
+                          <SelectItem value="Not Started">
                             Not Started
                           </SelectItem>
-                          <SelectItem value="Research" className="text-md">Research</SelectItem>
-                          <SelectItem value="In Progress" className="text-md">
+                          <SelectItem value="Research">Research</SelectItem>
+                          <SelectItem value="In Progress">
                             In Progress
                           </SelectItem>
-                          <SelectItem value="Stalled" className="text-md">Stalled</SelectItem>
-                          <SelectItem value="Completed" className="text-md">Completed</SelectItem>
+                          <SelectItem value="Stalled">Stalled</SelectItem>
+                          <SelectItem value="Completed">Completed</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -325,6 +367,9 @@ function Task3() {
                 )}
               </Formik>
             ) : (
+                ///////////////////////////
+                // Task List Non Editing //
+                ///////////////////////////
               <>
                 <div className="flex justify-end">
                   <Button
@@ -351,7 +396,7 @@ function Task3() {
                     }
                     className="w-56"
                   >
-                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 ${
                       task.status === "Not Started"
                         ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                         : task.status === "Research"
@@ -362,14 +407,27 @@ function Task3() {
                         ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
                         : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
                     } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
-                      <SelectValue placeholder="Status" />
+                      <div className="flex items-center">
+                        <div className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
+                          task.status === "Not Started"
+                            ? "bg-gray-400"
+                            : task.status === "Research"
+                            ? "bg-purple-600"
+                            : task.status === "In Progress"
+                            ? "bg-blue-600"
+                            : task.status === "Stalled"
+                            ? "bg-orange-600"
+                            : "bg-green-600"
+                        }`}></div>
+                        <SelectValue placeholder="Status" />
+                      </div>
                     </SelectTrigger>
                     <SelectContent className="rounded-lg">
-                      <SelectItem className="text-md" value="Not Started">Not Started</SelectItem>
-                      <SelectItem className="text-md" value="Research">Research</SelectItem>
-                      <SelectItem className="text-md" value="In Progress">In Progress</SelectItem>
-                      <SelectItem className="text-md" value="Stalled">Stalled</SelectItem>
-                      <SelectItem className="text-md" value="Completed">Completed</SelectItem>
+                      <SelectItem value="Not Started">Not Started</SelectItem>
+                      <SelectItem value="Research">Research</SelectItem>
+                      <SelectItem value="In Progress">In Progress</SelectItem>
+                      <SelectItem value="Stalled">Stalled</SelectItem>
+                      <SelectItem value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
