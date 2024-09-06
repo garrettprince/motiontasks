@@ -156,15 +156,25 @@ function Task3() {
                     className="mb-2 p-2 border rounded"
                     required
                   >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Status" />
+                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                      values.status === "Not Started"
+                        ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
+                        : values.status === "Research"
+                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
+                        : values.status === "In Progress"
+                        ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
+                        : values.status === "Stalled"
+                        ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
+                        : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
+                    } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
+                    <SelectValue placeholder="Status" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Not Started">Not Started</SelectItem>
-                      <SelectItem value="Research">Research</SelectItem>
-                      <SelectItem value="In Progress">In Progress</SelectItem>
-                      <SelectItem value="Stalled">Stalled</SelectItem>
-                      <SelectItem value="Completed">Completed</SelectItem>
+                    <SelectContent className="rounded-lg">
+                      <SelectItem className="text-md" value="Not Started">Not Started</SelectItem>
+                      <SelectItem className="text-md" value="Research">Research</SelectItem>
+                      <SelectItem className="text-md" value="In Progress">In Progress</SelectItem>
+                      <SelectItem className="text-md" value="Stalled">Stalled</SelectItem>
+                      <SelectItem className="text-md" value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
                 </section>
@@ -247,29 +257,29 @@ function Task3() {
                         className="w-56"
                         required
                       >
-                        <SelectTrigger className={`transition-all ease-in-out duration-200 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                        <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
                           values.status === "Not Started"
-                            ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow"
+                            ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                             : values.status === "Research"
-                            ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow"
+                            ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
                             : values.status === "In Progress"
-                            ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow"
+                            ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
                             : values.status === "Stalled"
-                            ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow"
-                            : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow"
-                        }`}>
+                            ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
+                            : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
+                        } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
                           <SelectValue placeholder="Status" />
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Not Started">
+                        <SelectContent className="rounded-lg">
+                          <SelectItem value="Not Started" className="text-md">
                             Not Started
                           </SelectItem>
-                          <SelectItem value="Research">Research</SelectItem>
-                          <SelectItem value="In Progress">
+                          <SelectItem value="Research" className="text-md">Research</SelectItem>
+                          <SelectItem value="In Progress" className="text-md">
                             In Progress
                           </SelectItem>
-                          <SelectItem value="Stalled">Stalled</SelectItem>
-                          <SelectItem value="Completed">Completed</SelectItem>
+                          <SelectItem value="Stalled" className="text-md">Stalled</SelectItem>
+                          <SelectItem value="Completed" className="text-md">Completed</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -341,25 +351,25 @@ function Task3() {
                     }
                     className="w-56"
                   >
-                    <SelectTrigger className={`transition-all ease-in-out duration-200 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
+                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer text-md ${
                       task.status === "Not Started"
-                        ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow"
+                        ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                         : task.status === "Research"
-                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow"
+                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
                         : task.status === "In Progress"
-                        ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow"
+                        ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
                         : task.status === "Stalled"
-                        ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow"
-                        : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow"
-                    }`}>
+                        ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
+                        : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
+                    } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
                       <SelectValue placeholder="Status" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Not Started">Not Started</SelectItem>
-                      <SelectItem value="Research">Research</SelectItem>
-                      <SelectItem value="In Progress">In Progress</SelectItem>
-                      <SelectItem value="Stalled">Stalled</SelectItem>
-                      <SelectItem value="Completed">Completed</SelectItem>
+                    <SelectContent className="rounded-lg">
+                      <SelectItem className="text-md" value="Not Started">Not Started</SelectItem>
+                      <SelectItem className="text-md" value="Research">Research</SelectItem>
+                      <SelectItem className="text-md" value="In Progress">In Progress</SelectItem>
+                      <SelectItem className="text-md" value="Stalled">Stalled</SelectItem>
+                      <SelectItem className="text-md" value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
