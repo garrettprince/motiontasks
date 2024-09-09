@@ -2,12 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @import url("../styles/stylesheet.css"); */
 
 @layer base {
   .task-card-shadow {
-    box-shadow: 0 2px 2px -17px #0d162f0d, 0 9px 13px -5px #0d162f1a;
-      /* inset 0 -3px 0 0 #f3f3f4; */
+    box-shadow: 0 2px 2px -17px #0d162f0d, 0 5px 7px -5px #0d162f1a;
   }
 
   .not-started-select-shadow {

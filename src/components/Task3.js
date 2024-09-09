@@ -176,7 +176,7 @@ function Task3() {
                       values.status === "Not Started"
                         ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                         : values.status === "Research"
-                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
+                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  research-select-shadow focus:ring-purple-400"
                         : values.status === "In Progress"
                         ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
                         : values.status === "Stalled"
@@ -235,7 +235,7 @@ function Task3() {
       {/* Task List EDITING */}
       <div className="w-full ">
         {tasks.map((task) => (
-          <div key={task.id} className="border p-4 rounded-2xl mb-2">
+          <div key={task.id} className="task-card-shadow border-gray-300 border p-4 rounded-2xl mb-4">
             {editingTaskId === task.id ? (
               <Formik
                 initialValues={{
@@ -400,7 +400,7 @@ function Task3() {
                       task.status === "Not Started"
                         ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                         : task.status === "Research"
-                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
+                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  research-select-shadow focus:ring-purple-400"
                         : task.status === "In Progress"
                         ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
                         : task.status === "Stalled"
