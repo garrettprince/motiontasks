@@ -14,7 +14,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/utils/supabase";
 import { Formik, Form, Field } from "formik";
 import { DatePicker } from "@/components/DatePicker";
-import { Check, Trash, Trash2 } from "lucide-react";
+import { Check, Pencil, Trash, Trash2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Task3() {
   const [tasks, setTasks] = useState([]);
@@ -138,8 +139,8 @@ function Task3() {
                   value={values.title}
                   onChange={(e) => {
                     setFieldValue("title", e.target.value);
-                    e.target.style.height = '20px';
-                    e.target.style.height = e.target.scrollHeight + 'px';
+                    e.target.style.height = "20px";
+                    e.target.style.height = e.target.scrollHeight + "px";
                   }}
                   placeholder="New task"
                   className="w-full mb-2 p-2 text-xl resize-none rounded-lg overflow-hidden border-none shadow-none placeholder:text-gray-400"
@@ -172,31 +173,35 @@ function Task3() {
                     className="mb-2 p-2 border rounded"
                     required
                   >
-                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 ${
-                      values.status === "Not Started"
-                        ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
-                        : values.status === "Research"
-                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  research-select-shadow focus:ring-purple-400"
-                        : values.status === "In Progress"
-                        ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
-                        : values.status === "Stalled"
-                        ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
-                        : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
-                    } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
-                    <div className="flex items-center">
-                      <div className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
+                    <SelectTrigger
+                      className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 ${
                         values.status === "Not Started"
-                          ? "bg-gray-400"
+                          ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
                           : values.status === "Research"
-                          ? "bg-purple-600"
+                          ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  research-select-shadow focus:ring-purple-400"
                           : values.status === "In Progress"
-                          ? "bg-blue-600"
+                          ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
                           : values.status === "Stalled"
-                          ? "bg-orange-600"
-                          : "bg-green-600"
-                      }`}></div>
-                      <SelectValue placeholder="Status" />
-                    </div>
+                          ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
+                          : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
+                      } focus:outline-none focus:ring-2 focus:ring-offset-1`}
+                    >
+                      <div className="flex items-center">
+                        <div
+                          className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
+                            values.status === "Not Started"
+                              ? "bg-gray-400"
+                              : values.status === "Research"
+                              ? "bg-purple-600"
+                              : values.status === "In Progress"
+                              ? "bg-blue-600"
+                              : values.status === "Stalled"
+                              ? "bg-orange-600"
+                              : "bg-green-600"
+                          }`}
+                        ></div>
+                        <SelectValue placeholder="Status" />
+                      </div>
                     </SelectTrigger>
                     <SelectContent className="rounded-lg">
                       <SelectItem value="Not Started">Not Started</SelectItem>
@@ -233,9 +238,13 @@ function Task3() {
       )}
 
       {/* Task List EDITING */}
-      <div className="w-full ">
+      <motion.div className="w-full ">
         {tasks.map((task) => (
-          <div key={task.id} className="task-card-shadow border-gray-300 border p-4 rounded-2xl mb-4">
+          <motion.div
+            layoutId={`task-${task.id}`}
+            key={task.id}
+            className="task-card-shadow border-gray-300 border p-5 rounded-2xl mb-4"
+          >
             {editingTaskId === task.id ? (
               <Formik
                 initialValues={{
@@ -266,8 +275,8 @@ function Task3() {
                       autoComplete="off"
                       required
                     />
-                    <div className="flex justify-between space-x-2 mb-2">
-                      <DatePicker
+                    <div className="flex justify-between space-x-2">
+                      {/* <DatePicker
                         selected={values.dueDate}
                         onChange={(date) => {
                           setFieldValue("dueDate", date);
@@ -275,8 +284,9 @@ function Task3() {
                         }}
                         className="min-w-[8rem]"
                         required
-                      />
+                      /> */}
                       <Select
+                        layoutId="status"
                         name="status"
                         onValueChange={(value) => {
                           setFieldValue("status", value);
@@ -286,29 +296,33 @@ function Task3() {
                         className=""
                         required
                       >
-                        <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8  ${
-                          values.status === "Not Started"
-                            ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
-                            : values.status === "Research"
-                            ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
-                            : values.status === "In Progress"
-                            ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
-                            : values.status === "Stalled"
-                            ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
-                            : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
-                        } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
+                        <SelectTrigger
+                          className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8  ${
+                            values.status === "Not Started"
+                              ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
+                              : values.status === "Research"
+                              ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
+                              : values.status === "In Progress"
+                              ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
+                              : values.status === "Stalled"
+                              ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
+                              : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
+                          } focus:outline-none focus:ring-2 focus:ring-offset-1`}
+                        >
                           <div className="flex items-center">
-                            <div className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
-                              values.status === "Not Started"
-                                ? "bg-gray-400"
-                                : values.status === "Research"
-                                ? "bg-purple-600"
-                                : values.status === "In Progress"
-                                ? "bg-blue-600"
-                                : values.status === "Stalled"
-                                ? "bg-orange-600"
-                                : "bg-green-600"
-                            }`}></div>
+                            <div
+                              className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
+                                values.status === "Not Started"
+                                  ? "bg-gray-400"
+                                  : values.status === "Research"
+                                  ? "bg-purple-600"
+                                  : values.status === "In Progress"
+                                  ? "bg-blue-600"
+                                  : values.status === "Stalled"
+                                  ? "bg-orange-600"
+                                  : "bg-green-600"
+                              }`}
+                            ></div>
                             <SelectValue placeholder="Status" />
                           </div>
                         </SelectTrigger>
@@ -324,8 +338,7 @@ function Task3() {
                           <SelectItem value="Completed">Completed</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="flex justify-between space-x-2">
+
                       <Button
                         type="button"
                         className="w-20"
@@ -359,7 +372,7 @@ function Task3() {
                           disabled={isSubmitting}
                         >
                           <Check className="w-3 h-3 mr-1 " />
-                          {isSubmitting ? "Updating..." : "Save"}
+                          Save
                         </Button>
                       </div>
                     </div>
@@ -367,58 +380,58 @@ function Task3() {
                 )}
               </Formik>
             ) : (
-                ///////////////////////////
-                // Task List Non Editing //
-                ///////////////////////////
-              <>
-                <div className="flex justify-end">
-                  <Button
+              ///////////////////////////
+              // Task List Non Editing //
+              ///////////////////////////
+              <motion.div layoutId={`task-${task.id}`} className="flex flex-col space-y-3">
+                {/* <div className="flex justify-end">
+                  <button
                     onClick={() => setEditingTaskId(task.id)}
-                    className="mt-2 items-center w-16"
-                    variant="outline"
-                    size="sm"
+                    className="items-center text-gray-400 hover:text-black hover:bg-gray-100 hover:shadow-sm p-2 rounded-lg transition-all ease-in-out duration-200"
                   >
-                    Edit
-                  </Button>
-                </div>
-                <h3 className="font-semibold">{task.title}</h3>
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                </div> */}
+                <h3 className="text-xl font-medium">{task.title}</h3>
                 <p>{task.description}</p>
-                <div className="flex justify-between space-x-2 mb-2">
-                  <DatePicker
+                <div className="flex justify-between space-x-4">
+                  {/* <DatePicker
                     selected={new Date(task.due_date)}
                     onChange={(date) => handleUpdate(task.id, "due_date", date)}
-                    className="min-w-[8rem]"
-                  />
+                  /> */}
                   <Select
                     value={task.status}
                     onValueChange={(value) =>
                       handleUpdate(task.id, "status", value)
                     }
-                    className="w-56"
                   >
-                    <SelectTrigger className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 ${
-                      task.status === "Not Started"
-                        ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
-                        : task.status === "Research"
-                        ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  research-select-shadow focus:ring-purple-400"
-                        : task.status === "In Progress"
-                        ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
-                        : task.status === "Stalled"
-                        ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
-                        : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
-                    } focus:outline-none focus:ring-2 focus:ring-offset-1`}>
+                    <SelectTrigger
+                      className={`transition-all w-full ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 ${
+                        task.status === "Not Started"
+                          ? "bg-white hover:bg-gray-100 border-gray-300 focus:ring-gray-400"
+                          : task.status === "Research"
+                          ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-300  focus:ring-purple-400"
+                          : task.status === "In Progress"
+                          ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-300 focus:ring-blue-400"
+                          : task.status === "Stalled"
+                          ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-300 focus:ring-orange-400"
+                          : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-300 focus:ring-green-400"
+                      } focus:outline-none focus:ring-2 focus:ring-offset-1`}
+                    >
                       <div className="flex items-center">
-                        <div className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
-                          task.status === "Not Started"
-                            ? "bg-gray-400"
-                            : task.status === "Research"
-                            ? "bg-purple-600"
-                            : task.status === "In Progress"
-                            ? "bg-blue-600"
-                            : task.status === "Stalled"
-                            ? "bg-orange-600"
-                            : "bg-green-600"
-                        }`}></div>
+                        <div
+                          className={`w-[0.35rem] h-[0.35rem] rounded-full mr-2 ${
+                            task.status === "Not Started"
+                              ? "bg-gray-400"
+                              : task.status === "Research"
+                              ? "bg-purple-600"
+                              : task.status === "In Progress"
+                              ? "bg-blue-600"
+                              : task.status === "Stalled"
+                              ? "bg-orange-600"
+                              : "bg-green-600"
+                          }`}
+                        ></div>
                         <SelectValue placeholder="Status" />
                       </div>
                     </SelectTrigger>
@@ -430,12 +443,18 @@ function Task3() {
                       <SelectItem value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
+                  <button
+                    onClick={() => setEditingTaskId(task.id)}
+                    className="items-center text-gray-400 hover:text-black focus:text-black  hover:bg-gray-100 hover:shadow-sm p-2 rounded-lg transition-all ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-400"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
                 </div>
-              </>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
