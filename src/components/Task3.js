@@ -110,7 +110,10 @@ function Task3() {
     //////////
     // FORM //
     //////////
-    <div className="flex flex-col items-center justify-center w-[22.5rem] mx-auto">
+    <motion.div
+      layout
+      className="flex flex-col items-center justify-center w-[22.5rem] mx-auto"
+    >
       <div className="flex w-full justify-end">
         <Button
           onClick={() => setShowNewTaskForm(true)}
@@ -241,7 +244,7 @@ function Task3() {
       <motion.div className="w-full ">
         {tasks.map((task) => (
           <motion.div
-            layoutId={`task-${task.id}`}
+            layout
             key={task.id}
             className="task-card-shadow border-gray-300 border p-5 rounded-2xl mb-4"
           >
@@ -260,31 +263,30 @@ function Task3() {
                 }}
               >
                 {({ values, setFieldValue, isSubmitting, resetForm }) => (
-                  <Form>
-                    <Field
-                      as={Input}
-                      name="title"
-                      className="font-semibold mb-2"
-                      autoComplete="off"
-                      required
-                    />
-                    <Field
-                      as={Input}
-                      name="description"
-                      className="mb-2"
-                      autoComplete="off"
-                      required
-                    />
-                    <div className="flex justify-between space-x-2">
-                      {/* <DatePicker
-                        selected={values.dueDate}
-                        onChange={(date) => {
-                          setFieldValue("dueDate", date);
-                          handleUpdate(task.id, "due_date", date);
-                        }}
-                        className="min-w-[8rem]"
+
+                    <Form>
+                      <Field
+                        as={Input}
+                        name="title"
+                        className="text-xl font-medium mb-4"
+                        autoComplete="off"
+                        placeholder="Task title"
                         required
-                      /> */}
+                      />
+                      <Field
+                        as="textarea"
+                        name="description"
+                        className="w-full p-2 focus:border-gray-300 rounded-lg  focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent resize-none mb-5 transition-all duration-150 ease-in-out focus:ring-inset-2"
+                        rows={2}
+                        placeholder="Task description"
+                        autoComplete="off"
+                        required
+                        style={{ height: "auto", minHeight: "3rem" }}
+                        onInput={(e) => {
+                          e.target.style.height = "auto";
+                          e.target.style.height = e.target.scrollHeight + "px";
+                        }}
+                      />
                       <Select
                         layoutId="status"
                         name="status"
@@ -293,20 +295,20 @@ function Task3() {
                           handleUpdate(task.id, "status", value);
                         }}
                         value={values.status}
-                        className=""
+
                         required
                       >
                         <SelectTrigger
-                          className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8  ${
+                          className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 mb-5  ${
                             values.status === "Not Started"
-                              ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
+                              ? "bg-white hover:bg-gray-100 border-gray-200  focus:ring-gray-400"
                               : values.status === "Research"
-                              ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200 border-b-purple-300 research-select-shadow focus:ring-purple-400"
+                              ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  focus:ring-purple-400"
                               : values.status === "In Progress"
-                              ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
+                              ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200  focus:ring-blue-400"
                               : values.status === "Stalled"
-                              ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
-                              : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
+                              ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200  focus:ring-orange-400"
+                              : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200  focus:ring-green-400"
                           } focus:outline-none focus:ring-2 focus:ring-offset-1`}
                         >
                           <div className="flex items-center">
@@ -338,44 +340,53 @@ function Task3() {
                           <SelectItem value="Completed">Completed</SelectItem>
                         </SelectContent>
                       </Select>
-
-                      <Button
-                        type="button"
-                        className="w-20"
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => {
-                          resetForm();
-                          setEditingTaskId(null);
-                        }}
-                      >
-                        Cancel
-                      </Button>
                       <div className="flex justify-between space-x-2">
-                        <div>
+                        {/* <DatePicker
+                            selected={values.dueDate}
+                            onChange={(date) => {
+                              setFieldValue("dueDate", date);
+                              handleUpdate(task.id, "due_date", date);
+                            }}
+                            className="min-w-[8rem]"
+                            required
+                          /> */}
+                        <Button
+                          type="button"
+                          className="w-20"
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => {
+                            resetForm();
+                            setEditingTaskId(null);
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                        <div className="flex justify-between space-x-2">
+                          <div>
+                            <Button
+                              type="button"
+                              className="w-20"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDelete(task.id)}
+                            >
+                              <Trash2 className="w-3 h-3 mr-1 mb-[.1rem]" />
+                              <span>Delete</span>
+                            </Button>
+                          </div>
                           <Button
-                            type="button"
+                            type="submit"
                             className="w-20"
-                            variant="destructive"
+                            variant="outline"
                             size="sm"
-                            onClick={() => handleDelete(task.id)}
+                            disabled={isSubmitting}
                           >
-                            <Trash2 className="w-3 h-3 mr-1 mb-[.1rem]" />
-                            <span>Delete</span>
+                            <Check className="w-3 h-3 mr-1 " />
+                            Save
                           </Button>
                         </div>
-                        <Button
-                          type="submit"
-                          className="w-20"
-                          variant="outline"
-                          size="sm"
-                          disabled={isSubmitting}
-                        >
-                          <Check className="w-3 h-3 mr-1 " />
-                          Save
-                        </Button>
                       </div>
-                    </div>
                   </Form>
                 )}
               </Formik>
@@ -383,7 +394,7 @@ function Task3() {
               ///////////////////////////
               // Task List Non Editing //
               ///////////////////////////
-              <motion.div layoutId={`task-${task.id}`} className="flex flex-col space-y-3">
+              <motion.div layout className="flex flex-col space-y-3">
                 {/* <div className="flex justify-end">
                   <button
                     onClick={() => setEditingTaskId(task.id)}
@@ -455,7 +466,7 @@ function Task3() {
           </motion.div>
         ))}
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 
