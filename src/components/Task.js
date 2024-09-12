@@ -17,7 +17,6 @@ import { DatePicker } from "@/components/DatePicker";
 import { Check, Pencil, Trash, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-
 function Task3() {
   const [tasks, setTasks] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
@@ -118,10 +117,7 @@ function Task3() {
     //////////
     // FORM //
     //////////
-    <motion.div
-      layout
-      className="flex flex-col items-center justify-center w-72 mx-auto font-medium"
-    >
+    <motion.div className="flex flex-col items-center justify-center w-72 mx-auto font-medium">
       <div className="flex w-full justify-end">
         <Button
           onClick={() => setShowNewTaskForm(true)}
@@ -133,7 +129,7 @@ function Task3() {
         </Button>
       </div>
       {showNewTaskForm && (
-        <div className="w-full border p-4 rounded-2xl mb-2">
+        <div className="w-full border p-3 rounded-2xl border-gray-300 mb-4">
           <Formik
             initialValues={{
               title: "",
@@ -145,56 +141,48 @@ function Task3() {
           >
             {({ values, setFieldValue }) => (
               <Form>
-                <Textarea
+                <Field
+                  as={Input}
                   name="title"
                   value={values.title}
-                  onChange={(e) => {
-                    setFieldValue("title", e.target.value);
-                    e.target.style.height = "20px";
-                    e.target.style.height = e.target.scrollHeight + "px";
-                  }}
                   placeholder="New task"
-                  className="w-full mb-2 p-2 text-xl resize-none rounded-lg overflow-hidden border-none shadow-none placeholder:text-gray-400"
+                  className="w-full mb-2 p-2 text-lg font-regular resize-none rounded-lg border-none shadow-none placeholder:text-gray-400"
                   autoComplete="off"
                   required
                   rows={1}
                   ref={newTaskInputRef}
                 />
-                <Input
-                  type="text"
+                <Field
+                  as="textarea"
                   name="description"
                   value={values.description}
                   onChange={(e) => setFieldValue("description", e.target.value)}
                   placeholder="Task Description"
-                  className="w-full mb-2 p-2 border rounded"
+                  className="w-full mb-3 p-2 border rounded "
                   autoComplete="off"
                   required
+                  rows={2}
                 />
-                <section className="flex justify-between space-x-2">
-                  <DatePicker
-                    selected={values.dueDate}
-                    onChange={(date) => setFieldValue("dueDate", date)}
-                    className="min-w-[8rem] mb-2 p-2 border rounded"
-                    required
-                  />
+                <section className="">
+             
                   <Select
                     name="status"
                     onValueChange={(value) => setFieldValue("status", value)}
                     value={values.status}
-                    className="mb-2 p-2 border rounded"
+                    className=" p-2 border rounded"
                     required
                   >
                     <SelectTrigger
-                      className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-8 ${
+                      className={`transition-all ease-in-out duration-100 border rounded-lg px-2 py-1 flex items-center justify-between cursor-pointer h-6 mb-3 ${
                         values.status === "Not Started"
-                          ? "bg-white hover:bg-gray-100 border-gray-200 border-b-gray-300 not-started-select-shadow focus:ring-gray-400"
+                          ? "bg-white hover:bg-gray-100 border-gray-200 not-started-select-shadow focus:ring-gray-400"
                           : values.status === "Research"
-                          ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  research-select-shadow focus:ring-purple-400"
+                          ? "bg-purple-100 text-purple-600 hover:bg-purple-200/75 border-purple-200  focus:ring-purple-400"
                           : values.status === "In Progress"
-                          ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 border-b-blue-300 in-progress-select-shadow focus:ring-blue-400"
+                          ? "bg-blue-100 text-blue-600 hover:bg-blue-200/75 border-blue-200 in-progress-select-shadow focus:ring-blue-400"
                           : values.status === "Stalled"
-                          ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 border-b-orange-300 stalled-select-shadow focus:ring-orange-400"
-                          : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 border-b-green-300 completed-select-shadow focus:ring-green-400"
+                          ? "bg-orange-100 text-orange-600 hover:bg-orange-200/75 border-orange-200 stalled-select-shadow focus:ring-orange-400"
+                          : "bg-green-100 text-green-600 hover:bg-green-200/75 border-green-200 completed-select-shadow focus:ring-green-400"
                       } focus:outline-none focus:ring-2 focus:ring-offset-1`}
                     >
                       <div className="flex items-center">
@@ -215,19 +203,19 @@ function Task3() {
                       </div>
                     </SelectTrigger>
                     <SelectContent className="rounded-lg">
-                      <SelectItem value="Not Started">Not Started</SelectItem>
-                      <SelectItem value="Research">Research</SelectItem>
-                      <SelectItem value="In Progress">In Progress</SelectItem>
-                      <SelectItem value="Stalled">Stalled</SelectItem>
-                      <SelectItem value="Completed">Completed</SelectItem>
+                      <SelectItem className="h-6 rounded-lg"   value="Not Started">Not Started</SelectItem>
+                      <SelectItem className="h-6 rounded-lg" value="Research">Research</SelectItem>
+                      <SelectItem className="h-6 rounded-lg" value="In Progress">In Progress</SelectItem>
+                      <SelectItem className="h-6 rounded-lg" value="Stalled">Stalled</SelectItem>
+                      <SelectItem className="h-6 rounded-lg" value="Completed">Completed</SelectItem>
                     </SelectContent>
                   </Select>
                 </section>
                 <div className="flex justify-between space-x-2">
                   <Button
                     type="button"
-                    className="w-full mt-2"
-                    variant="secondary"
+                    className="w-full h-6 rounded-lg"
+                    variant="outline"
                     size="sm"
                     onClick={() => setShowNewTaskForm(false)}
                   >
@@ -235,8 +223,8 @@ function Task3() {
                   </Button>
                   <Button
                     type="submit"
-                    className="w-full mt-2"
-                    variant="default"
+                    className="w-full h-6 rounded-lg"
+                    variant="outline"
                     size="sm"
                   >
                     Create Task
@@ -249,7 +237,7 @@ function Task3() {
       )}
 
       {/* Task List EDITING */}
-      <motion.div className="w-full ">
+      <motion.div className="w-full">
         {tasks.map((task) => (
           <motion.div
             layout
@@ -417,7 +405,7 @@ function Task3() {
               ///////////////////////////
               // Task List Non Editing //
               ///////////////////////////
-              <motion.div layout className="flex flex-col ">
+              <motion.div className="flex flex-col ">
                 {/* <div className="flex justify-end">
                   <button
                     onClick={() => setEditingTaskId(task.id)}
@@ -427,7 +415,12 @@ function Task3() {
                   </button>
                 </div> */}
                 <h3 className="text-lg font-medium mb-2">{task.title}</h3>
-                <p dangerouslySetInnerHTML={{ __html: task.description.replace(/\n/g, '<br />') }} className="text-sm mb-3"></p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: task.description.replace(/\n/g, "<br />"),
+                  }}
+                  className="text-sm mb-3"
+                ></p>
                 {/* {task.subtasks.map((subtask) => (
                   <div key={subtask.id}>
                     <Checkbox />
