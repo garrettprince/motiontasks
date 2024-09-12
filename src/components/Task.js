@@ -427,7 +427,7 @@ function Task3() {
                   </button>
                 </div> */}
                 <h3 className="text-lg font-medium mb-2">{task.title}</h3>
-                <p className="text-sm mb-3">{task.description}</p>
+                <p dangerouslySetInnerHTML={{ __html: task.description.replace(/\n/g, '<br />') }} className="text-sm mb-3"></p>
                 {/* {task.subtasks.map((subtask) => (
                   <div key={subtask.id}>
                     <Checkbox />
