@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/utils/supabase";
 import { motion } from "framer-motion";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
 import { Button } from "./ui/button";
 import CompletedTaskList from "./CompletedTaskList";
-
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./ui/select";
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from("tasks")
@@ -27,15 +30,27 @@ function TaskManager() {
       if (error) {
         console.error("Error fetching tasks:", error);
       } else {
-        const active = data.filter((task) => task.status !== "Completed");
-        const completed = data.filter((task) => task.status === "Completed");
+        const filteredData =
+          selectedCategory === "All"
+            ? data
+            : data.filter((task) => task.category === selectedCategory);
+        const active = filteredData.filter(
+          (task) => task.status !== "Completed"
+        );
+        const completed = filteredData.filter(
+          (task) => task.status === "Completed"
+        );
         setTasks(active);
         setCompletedTasks(completed);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
     }
-  };
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -44,6 +59,7 @@ function TaskManager() {
         description: values.description,
         status: values.status,
         due_date: values.dueDate,
+        category: values.category, // Add this line
       });
 
       if (error) {
@@ -95,12 +111,16 @@ function TaskManager() {
 
   return (
     <motion.div className="flex flex-col items-center justify-center w-72 mx-auto font-medium">
+     
+
       <NewTaskForm
         showNewTaskForm={showNewTaskForm}
         setShowNewTaskForm={setShowNewTaskForm}
         handleSubmit={handleSubmit}
         setShowCompletedTasks={setShowCompletedTasks}
         showCompletedTasks={showCompletedTasks}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
       />
 
       {showCompletedTasks ? (

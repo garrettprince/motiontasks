@@ -17,6 +17,8 @@ function NewTaskForm({
   handleSubmit,
   showCompletedTasks,
   setShowCompletedTasks,
+  selectedCategory,
+  setSelectedCategory,
 }) {
   const inputRef = useRef(null);
 
@@ -53,6 +55,44 @@ function NewTaskForm({
             New Task
           </Button>
         </div>
+        <div className="flex items-center px-1 w-full bg-gray-100 rounded-lg justify-between h-8 mb-4 transition-all ease-in-out">
+          <Button
+            onClick={() => setSelectedCategory("Personal")}
+            variant={selectedCategory === "Personal" ? "outline" : "ghost"}
+            className={`text-xs h-6 ${
+              selectedCategory === "Personal" ? "border border-gray-300 hover:none" : ""
+            } rounded-lg`}
+          >
+            Personal
+          </Button>
+          <Button
+            onClick={() => setSelectedCategory("Work")}
+            variant={selectedCategory === "Work" ? "outline" : "ghost"}
+            className={`text-xs h-6 ${
+              selectedCategory === "Work" ? "border border-gray-300" : ""
+            } rounded-lg`}
+          >
+            Work
+          </Button>
+          <Button
+            onClick={() => setSelectedCategory("Projects")}
+            variant={selectedCategory === "Projects" ? "outline" : "ghost"}
+            className={`text-xs h-6 ${
+              selectedCategory === "Projects" ? "border border-gray-300" : ""
+            } rounded-lg`}
+          >
+            Projects
+          </Button>
+          <Button
+            onClick={() => setSelectedCategory("All")}
+            variant={selectedCategory === "All" ? "outline" : "ghost"}
+            className={`text-xs h-6 ${
+              selectedCategory === "All" ? "border border-gray-300" : ""
+            } rounded-lg`}
+          >
+            All
+          </Button>
+        </div>
       </AnimatePresence>
       {showNewTaskForm && (
         <div className="w-full border p-3 rounded-2xl border-gray-300 mb-4">
@@ -62,6 +102,7 @@ function NewTaskForm({
               description: "",
               status: "Not Started",
               dueDate: null,
+              category: "Personal", // Add this line
             }}
             onSubmit={handleSubmit}
           >
@@ -126,7 +167,7 @@ function NewTaskForm({
                       <SelectValue placeholder="Status" />
                     </div>
                   </SelectTrigger>
-                  <SelectContent className="rounded-xl">
+                  <SelectContent className="">
                     <SelectItem className="h-6 rounded-lg" value="Not Started">
                       Not Started
                     </SelectItem>
@@ -141,6 +182,28 @@ function NewTaskForm({
                     </SelectItem>
                     <SelectItem className="h-6 rounded-lg" value="Completed">
                       Completed
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select
+                  name="category"
+                  onValueChange={(value) => setFieldValue("category", value)}
+                  value={values.category}
+                  required
+                  className="h-6 mb-3 rounded-xl"
+                >
+                  <SelectTrigger className="h-6 mb-3 rounded-lg">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl">
+                    <SelectItem className="h-6 rounded-lg" value="Personal">
+                      Personal
+                    </SelectItem>
+                    <SelectItem className="h-6 rounded-lg" value="Work">
+                      Work
+                    </SelectItem>
+                    <SelectItem className="h-6 rounded-lg" value="Projects">
+                      Projects
                     </SelectItem>
                   </SelectContent>
                 </Select>

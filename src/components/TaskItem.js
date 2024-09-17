@@ -28,19 +28,22 @@ function TaskItem({
         description: task.description,
         status: task.status,
         dueDate: new Date(task.due_date),
+        category: task.category,
       }}
       onSubmit={(values) => {
         handleUpdate(task.id, "title", values.title);
         handleUpdate(task.id, "description", values.description);
+        handleUpdate(task.id, "category", values.category);
         setEditingTaskId(null);
       }}
     >
       {({ values, setFieldValue, isSubmitting, resetForm }) => (
         <Form>
-          <div className="flex">
+          <div className="flex justify-between">
             <p className="text-[.6rem] text-gray-500 bg-gray-100 py-1 px-2 rounded-lg mb-2 flex font-medium">
               TASK {task.id}
             </p>
+            {/* <p>test</p> */}
           </div>
           <Field
             as={Input}
@@ -123,6 +126,21 @@ function TaskItem({
               </SelectItem>
             </SelectContent>
           </Select>
+          <Select
+            name="category"
+            onValueChange={(value) => setFieldValue("category", value)}
+            value={values.category}
+            required
+          >
+            <SelectTrigger className="h-6 mb-3 rounded-lg">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Personal">Personal</SelectItem>
+              <SelectItem value="Work">Work</SelectItem>
+              <SelectItem value="Projects">Projects</SelectItem>
+            </SelectContent>
+          </Select>
           <div className="flex justify-between space-x-2">
             <Button
               type="button"
@@ -169,9 +187,12 @@ function TaskItem({
 
   const renderNonEditingView = () => (
     <motion.div className="flex flex-col">
-      <div className="flex justify-between">
-        <p className="text-[.6rem] text-gray-500 bg-gray-100 py-1 px-2 rounded-lg mb-2 flex font-medium">
+      <div className="flex">
+        <p className="text-[.6rem] text-gray-500 bg-gray-100 py-1 px-2 rounded-lg mb-2 flex font-medium mr-2">
           TASK {task.id}
+        </p>
+        <p className="text-[.6rem] text-gray-500 bg-gray-100 py-1 px-2 rounded-lg mb-2 flex font-medium">
+          {task.category}
         </p>
       </div>
       <h3 className="text- font-medium mb-2">{task.title}</h3>
