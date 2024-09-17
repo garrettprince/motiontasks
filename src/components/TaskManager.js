@@ -3,11 +3,15 @@ import { supabase } from "@/utils/supabase";
 import { motion } from "framer-motion";
 import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
+import { Button } from "./ui/button";
+import CompletedTaskList from "./CompletedTaskList";
 
 function TaskManager() {
   const [tasks, setTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+  const [showCompletedTasks, setShowCompletedTasks] = useState(false);
 
   useEffect(() => {
     fetchTasks();
@@ -23,7 +27,10 @@ function TaskManager() {
       if (error) {
         console.error("Error fetching tasks:", error);
       } else {
-        setTasks(data);
+        const active = data.filter((task) => task.status !== "Completed");
+        const completed = data.filter((task) => task.status === "Completed");
+        setTasks(active);
+        setCompletedTasks(completed);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
@@ -92,14 +99,25 @@ function TaskManager() {
         showNewTaskForm={showNewTaskForm}
         setShowNewTaskForm={setShowNewTaskForm}
         handleSubmit={handleSubmit}
+        setShowCompletedTasks={setShowCompletedTasks}
+        showCompletedTasks={showCompletedTasks}
       />
-      <TaskList
-        tasks={tasks}
-        editingTaskId={editingTaskId}
-        setEditingTaskId={setEditingTaskId}
-        handleUpdate={handleUpdate}
-        handleDelete={handleDelete}
-      />
+
+      {showCompletedTasks ? (
+        <CompletedTaskList
+          tasks={completedTasks}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />
+      ) : (
+        <TaskList
+          tasks={tasks}
+          editingTaskId={editingTaskId}
+          setEditingTaskId={setEditingTaskId}
+          handleUpdate={handleUpdate}
+          handleDelete={handleDelete}
+        />
+      )}
     </motion.div>
   );
 }

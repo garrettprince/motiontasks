@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -11,15 +11,41 @@ import { Input } from "@/components/ui/input";
 import { Formik, Form, Field } from "formik";
 import { motion, AnimatePresence } from "framer-motion";
 
-function NewTaskForm({ showNewTaskForm, setShowNewTaskForm, handleSubmit }) {
-  const newTaskInputRef = useRef(null);
+function NewTaskForm({
+  showNewTaskForm,
+  setShowNewTaskForm,
+  handleSubmit,
+  showCompletedTasks,
+  setShowCompletedTasks,
+}) {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (showNewTaskForm && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current.focus();
+      }, 0);
+    }
+  }, [showNewTaskForm]);
 
   return (
     <>
       <AnimatePresence>
-        <div className="flex w-full justify-end">
+        <div className="flex w-full justify-between">
           <Button
-            onClick={() => setShowNewTaskForm(true)}
+            onClick={() => (
+              setShowCompletedTasks(!showCompletedTasks),
+              setShowNewTaskForm(false)
+            )}
+            variant="outline"
+            className="text-xs h-6 border border-gray-300 rounded-lg"
+          >
+            {showCompletedTasks ? "Show Active Tasks" : "Show Completed Tasks"}
+          </Button>
+          <Button
+            onClick={() => (
+              setShowNewTaskForm(true), setShowCompletedTasks(false)
+            )}
             className="mb-4 h-6 rounded-lg border border-gray-300"
             variant="outline"
             size="sm"
@@ -41,24 +67,25 @@ function NewTaskForm({ showNewTaskForm, setShowNewTaskForm, handleSubmit }) {
           >
             {({ values, setFieldValue }) => (
               <Form>
-                <Field
-                  as={Input}
-                  name="title"
-                  value={values.title}
-                  placeholder="New task"
-                  className="w-full mb-2 p-2 text-md font-regular resize-none rounded-lg border-none shadow-none placeholder:text-gray-400"
-                  autoComplete="off"
-                  required
-                  rows={1}
-                  ref={newTaskInputRef}
-                />
+                <Field name="title">
+                  {({ field }) => (
+                    <Input
+                      {...field}
+                      placeholder="New task"
+                      className="w-full mb-2 p-2 text-md font-regular resize-none rounded-lg border-none shadow-none placeholder:text-gray-400"
+                      autoComplete="off"
+                      required
+                      ref={inputRef}
+                    />
+                  )}
+                </Field>
                 <Field
                   as="textarea"
                   name="description"
                   value={values.description}
                   onChange={(e) => setFieldValue("description", e.target.value)}
                   placeholder="Task Description"
-                  className="w-full mb-3 p-2 border rounded-lg text-xs "
+                  className="w-full p-2 font-medium focus:border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent resize-none mb-2 transition-all duration-150 ease-in-out focus:ring-inset-2 text-xs"
                   autoComplete="off"
                   required
                   rows={2}
