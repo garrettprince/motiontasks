@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Formik, Form, Field } from "formik";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { PlusIcon } from "@heroicons/react/24/outline";
 function NewTaskForm({
   showNewTaskForm,
   setShowNewTaskForm,
@@ -52,6 +52,7 @@ function NewTaskForm({
             variant="outline"
             size="sm"
           >
+            <PlusIcon className="w-3 h-3 mr-1" />
             New Task
           </Button>
         </div>
@@ -60,7 +61,9 @@ function NewTaskForm({
             onClick={() => setSelectedCategory("Personal")}
             variant={selectedCategory === "Personal" ? "outline" : "ghost"}
             className={`text-xs h-6 ${
-              selectedCategory === "Personal" ? "border border-gray-300 hover:none" : ""
+              selectedCategory === "Personal"
+                ? "border border-gray-300 hover:none"
+                : ""
             } rounded-lg`}
           >
             Personal
@@ -131,6 +134,29 @@ function NewTaskForm({
                   required
                   rows={2}
                 />
+
+                <Select
+                  name="category"
+                  onValueChange={(value) => setFieldValue("category", value)}
+                  value={values.category}
+                  required
+                  className="h-6 mb-3 rounded-xl"
+                >
+                  <SelectTrigger className="h-6 mb-3 rounded-lg">
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl">
+                    <SelectItem className="h-6 rounded-lg" value="Personal">
+                      Personal
+                    </SelectItem>
+                    <SelectItem className="h-6 rounded-lg" value="Work">
+                      Work
+                    </SelectItem>
+                    <SelectItem className="h-6 rounded-lg" value="Projects">
+                      Projects
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
                 <Select
                   name="status"
                   onValueChange={(value) => setFieldValue("status", value)}
@@ -182,28 +208,6 @@ function NewTaskForm({
                     </SelectItem>
                     <SelectItem className="h-6 rounded-lg" value="Completed">
                       Completed
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select
-                  name="category"
-                  onValueChange={(value) => setFieldValue("category", value)}
-                  value={values.category}
-                  required
-                  className="h-6 mb-3 rounded-xl"
-                >
-                  <SelectTrigger className="h-6 mb-3 rounded-lg">
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl">
-                    <SelectItem className="h-6 rounded-lg" value="Personal">
-                      Personal
-                    </SelectItem>
-                    <SelectItem className="h-6 rounded-lg" value="Work">
-                      Work
-                    </SelectItem>
-                    <SelectItem className="h-6 rounded-lg" value="Projects">
-                      Projects
                     </SelectItem>
                   </SelectContent>
                 </Select>
