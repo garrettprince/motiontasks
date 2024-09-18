@@ -12,13 +12,13 @@ import {
   SelectContent,
   SelectItem,
 } from "./ui/select";
-function TaskManager() {
+function TaskManager({ selectedCategory, setSelectedCategory }) {
   const [tasks, setTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  
 
   const fetchTasks = useCallback(async () => {
     try {

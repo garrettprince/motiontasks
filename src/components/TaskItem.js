@@ -43,7 +43,6 @@ function TaskItem({
             <p className="text-[.6rem] text-gray-500 bg-gray-100 py-1 px-2 rounded-lg mb-2 flex font-medium">
               TASK {task.id}
             </p>
-            {/* <p>test</p> */}
           </div>
           <Field
             as={Input}
@@ -135,10 +134,16 @@ function TaskItem({
             <SelectTrigger className="h-6 mb-3 rounded-lg">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Personal">Personal</SelectItem>
-              <SelectItem value="Work">Work</SelectItem>
-              <SelectItem value="Projects">Projects</SelectItem>
+            <SelectContent className="rounded-xl">
+              <SelectItem className="h-6 rounded-lg" value="Personal">
+                Personal
+              </SelectItem>
+              <SelectItem className="h-6 rounded-lg" value="Work">
+                Work
+              </SelectItem>
+              <SelectItem className="h-6 rounded-lg" value="Projects">
+                Projects
+              </SelectItem>
             </SelectContent>
           </Select>
           <div className="flex justify-between space-x-2">
