@@ -135,14 +135,11 @@ function TaskItem({
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
-              <SelectItem className="h-6 rounded-lg" value="Personal">
-                Personal
-              </SelectItem>
               <SelectItem className="h-6 rounded-lg" value="Work">
                 Work
               </SelectItem>
-              <SelectItem className="h-6 rounded-lg" value="Projects">
-                Projects
+              <SelectItem className="h-6 rounded-lg" value="Personal">
+                Personal
               </SelectItem>
             </SelectContent>
           </Select>

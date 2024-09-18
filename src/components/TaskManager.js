@@ -12,19 +12,24 @@ import {
   SelectContent,
   SelectItem,
 } from "./ui/select";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
+
 function TaskManager({ selectedCategory, setSelectedCategory }) {
   const [tasks, setTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
   const [showCompletedTasks, setShowCompletedTasks] = useState(false);
-  
+  const { user } = useKindeAuth();
 
   const fetchTasks = useCallback(async () => {
+    if (!user) return;
+
     try {
       const { data, error } = await supabase
         .from("tasks")
         .select("*")
+        .eq("user_id", user.id)
         .order("created_at", { ascending: false });
 
       if (error) {
@@ -46,20 +51,25 @@ function TaskManager({ selectedCategory, setSelectedCategory }) {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, user]);
 
   useEffect(() => {
-    fetchTasks();
-  }, [fetchTasks]);
+    if (user) {
+      fetchTasks();
+    }
+  }, [fetchTasks, user]);
 
   const handleSubmit = async (values, { resetForm }) => {
+    if (!user) return;
+
     try {
       const { data, error } = await supabase.from("tasks").insert({
         title: values.title,
         description: values.description,
         status: values.status,
         due_date: values.dueDate,
-        category: values.category, // Add this line
+        category: values.category,
+        user_id: user.id,
       });
 
       if (error) {
