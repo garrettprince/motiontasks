@@ -60,7 +60,7 @@ function Nav({ selectedCategory, setSelectedCategory }) {
       {isAuthenticated && user?.picture && (
         <div className="relative">
           <img
-            src={user.picture}
+            src={user?.picture}
             alt="User profile"
             className="ring-2 ring-gray-300 ring-offset-2 h-8 w-8 rounded-full object-cover cursor-pointer"
             onClick={() => setShowMenu(!showMenu)}
