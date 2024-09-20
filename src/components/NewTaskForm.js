@@ -87,12 +87,16 @@ function NewTaskForm({
                   as="textarea"
                   name="description"
                   value={values.description}
-                  onChange={(e) => setFieldValue("description", e.target.value)}
+
                   placeholder="Task Description"
                   className="w-full p-2 font-medium focus:border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent resize-none mb-2 transition-all duration-150 ease-in-out focus:ring-inset-2 text-xs"
                   autoComplete="off"
                   required
-                  rows={2}
+                  style={{ height: "auto", minHeight: "3rem" }}
+                  onInput={(e) => {
+                    e.target.style.height = "auto";
+                    e.target.style.height = e.target.scrollHeight + "px";
+                  }}
                 />
 
                 <Select
