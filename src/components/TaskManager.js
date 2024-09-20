@@ -5,13 +5,6 @@ import NewTaskForm from "./NewTaskForm";
 import TaskList from "./TaskList";
 import { Button } from "./ui/button";
 import CompletedTaskList from "./CompletedTaskList";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "./ui/select";
 import { useKindeAuth } from "@kinde-oss/kinde-auth-nextjs";
 
 function TaskManager({ selectedCategory, setSelectedCategory }) {
@@ -121,8 +114,6 @@ function TaskManager({ selectedCategory, setSelectedCategory }) {
 
   return (
     <motion.div className="flex flex-col items-center justify-center w-72 mx-auto font-medium">
-     
-
       <NewTaskForm
         showNewTaskForm={showNewTaskForm}
         setShowNewTaskForm={setShowNewTaskForm}

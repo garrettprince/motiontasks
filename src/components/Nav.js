@@ -3,14 +3,19 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useKindeAuth, LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExitIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/router";
 
 function Nav({ selectedCategory, setSelectedCategory }) {
   const { isAuthenticated, user } = useKindeAuth();
   const [showMenu, setShowMenu] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    router.push("/");
+  };
 
   return (
-    <div className="sticky bg-transparent top-0 w-full h-12 flex items-center justify-between px-5 pt-4">
+    <div className="sticky bg-transparent top-0 w-full mb-10 h-12 flex items-center justify-between px-5 pt-4">
       <img
         src="/images/colorgroup.png"
         alt="logo"
@@ -78,20 +83,14 @@ function Nav({ selectedCategory, setSelectedCategory }) {
                   <Button
                     variant="outline"
                     className="w-full text-left h-8 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}
                   >
-                    {/* <ExitIcon className="text-black h-4 w-4 mr-2" /> */}
                     Sign Out
                   </Button>
                 </LogoutLink>
               </motion.div>
             )}
           </AnimatePresence>
-          {/* {showMenu && (
-            <div
-              className="fixed inset-0 z-10"
-              onClick={() => setShowMenu(false)}
-            />
-          )} */}
         </div>
       )}
     </div>
